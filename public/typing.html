@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kitty Typing Test</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <style>
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.55rem;
+      box-shadow:
+        0 0 18px rgba(129,140,248,0.9),
+        0 0 32px rgba(168,85,247,0.9);
+    }
+
+    .typing-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+      width: 100%;
+    }
+    .typing-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .typing-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.1rem;
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+    .typing-timer {
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.95);
+    }
+    .typing-text {
+      border-radius: 0.9rem;
+      padding: 0.85rem 0.9rem;
+      background:
+        radial-gradient(circle at top left, rgba(129,140,248,0.14), transparent 55%),
+        rgba(15,23,42,0.98);
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #e5e7eb;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+    .blind-info {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    .typing-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .stat-box {
+      border-radius: 0.9rem;
+      padding: 0.55rem 0.7rem;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.96), #020617);
+      border: 1px solid rgba(148,163,184,0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+    }
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .typing-actions {
+      margin-top: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .typing-actions .chip {
+      font-size: 0.78rem;
+      padding-inline: 0.9rem;
+    }
+
+    /* HERO METRICS CARD */
+    .hero-metrics{
+      padding:1.6rem 1.5rem;
+      border-radius:1.6rem;
+      background:radial-gradient(circle at top left,#0f172a,#020617);
+      border:1px solid rgba(148,163,184,0.5);
+      box-shadow:0 18px 40px rgba(15,23,42,0.9);
+      color:#e5e7eb;
+    }
+    .hero-title{
+      font-size:1.6rem;
+      font-weight:600;
+      margin-bottom:0.4rem;
+    }
+    .hero-sub{
+      font-size:0.9rem;
+      color:#9ca3af;
+      margin-bottom:1.2rem;
+    }
+    .metric{
+      margin-bottom:1.1rem;
+    }
+    .metric-label{
+      font-size:0.8rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#9ca3af;
+      margin-bottom:.35rem;
+    }
+    .metric-bar{
+      width:100%;
+      height:6px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      overflow:hidden;
+      margin-bottom:.4rem;
+    }
+    .metric-fill{
+      width:70%;
+      height:100%;
+      background:linear-gradient(90deg,#22c55e,#22d3ee,#6366f1,#a855f7);
+    }
+    .metric-value{
+      font-size:1.2rem;
+      font-weight:600;
+    }
+    .metric-inline{
+      display:flex;
+      gap:1rem;
+      align-items:center;
+    }
+    .metric-pill,
+    .metric-pill-soft{
+      padding:.3rem .8rem;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:500;
+    }
+    .metric-pill{
+      background:#16a34a;
+      color:#f9fafb;
+    }
+    .metric-pill-soft{
+      background:rgba(37,99,235,0.2);
+      color:#e5e7eb;
+      border:1px solid rgba(129,140,248,0.6);
+    }
+
+    @media (max-width: 900px) {
+      .typing-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .typing-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 480px) {
+      .typing-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* base style for each character span */
+    .typing-text .char {
+      transition: background 0.12s ease, color 0.12s ease;
+    }
+    .typing-text .char.current {
+      background: rgba(129, 140, 248, 0.35);
+      color: #e5e7eb;
+      border-radius: 4px;
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orbit"></div>
+  <div class="bg-orbit orbit-two"></div>
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="../assets/images/logo.jpg" alt="Kitty Typing Logo" class="brand-logo" />
+        <div class="brand-text">
+          <span class="brand-title">Kitty Typing</span>
+          <span class="brand-sub">Test</span>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="chip chip-primary" id="btn-60">Test 60s</button>
+        <button class="chip chip-soft" id="btn-120">Test 120s</button>
+        <button class="chip chip-soft" id="custom-time">Custom</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="typing-layout">
+        <div class="hero-copy">
+          <div class="hero-metrics">
+            <h1 class="hero-title">Test your speed and accuracy.</h1>
+            <p class="hero-sub">
+              Start the test and type without seeing your input. Track your words per minute,
+              accuracy and characters typed in real time.
+            </p>
+
+            <!-- BEST SCORE -->
+            <div class="metric">
+              <span class="metric-label">Best score</span>
+              <div class="metric-bar">
+                <div class="metric-fill"></div>
+              </div>
+              <!-- JS will update this -->
+              <span class="metric-value">-- WPM</span>
+            </div>
+
+            <!-- AVERAGE ACCURACY + TOTAL TESTS -->
+            <div class="metric metric-inline">
+              <div>
+                <span class="metric-label">Average accuracy</span>
+                <!-- JS: avgAccuracyPill -->
+                <span class="metric-pill">--%</span>
+              </div>
+              <div>
+                <span class="metric-label">Total tests</span>
+                <!-- JS: totalTestsPill -->
+                <span class="metric-pill-soft metric-pill">0 completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-dot dot-red"></span>
+            <span class="panel-dot dot-amber"></span>
+            <span class="panel-dot dot-green"></span>
+            <span class="panel-title">Typing Test</span>
+          </div>
+          <div class="panel-body">
+            <div class="pill-row">
+              <span class="pill pill-soft">Blind mode</span>
+              <span class="pill">Live stats</span>
+            </div>
+
+            <div class="app-slot">
+              <div class="typing-wrapper">
+                <div class="typing-header">
+                  <div class="typing-timer">
+                    Time left: <span id="time-left">60</span>s
+                  </div>
+                  <button class="chip chip-soft" id="change-text">Change text</button>
+                </div>
+
+                <div class="typing-text" id="typing-text">
+                  The quick brown fox jumps over the lazy dog. Type this text as fast and as
+                  accurately as you can, but your input will stay hidden on the screen.
+                </div>
+
+                <div class="blind-info">
+                  Typing field is hidden. When the test starts, type on your keyboard and focus on
+                  the text above.
+                </div>
+
+                <div class="typing-stats">
+                  <div class="stat-box">
+                    <span class="stat-label">WPM</span>
+                    <span class="stat-value" id="wpm">0</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">Accuracy</span>
+                    <span class="stat-value" id="accuracy">0%</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">Characters</span>
+                    <span class="stat-value" id="characters">0</span>
+                  </div>
+                </div>
+
+                <div class="typing-actions">
+                  <button class="btn-main" id="start-test">Start test</button>
+                  <button class="chip chip-soft" id="reset-test">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-label">Created by</span>
+    <a href="https://www.linkedin.com/in/yash-shinde-393159309" target="_blank" class="creator-link">Yash</a>
+    <span class="dot">•</span>
+    <a href="https://www.linkedin.com/in/om-dumbre-075345372" target="_blank" class="creator-link">Om</a>
+    <span class="dot">•</span>
+    <a href="https://www.linkedin.com/in/ayush-valanju-3a3632341" target="_blank" class="creator-link">Ayush</a>
+  </div>
+</footer>
+
+  </div>
+
+  <!-- main typing logic + Firestore stats -->
+  <script type="module" src="../src/pages/main.js"></script>
+</body>
+</html>
