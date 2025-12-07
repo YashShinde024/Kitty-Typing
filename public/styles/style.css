@@ -810,3 +810,24 @@ body {
   }
 }
 
+/* Mobile keyboard fixes */
+@media (max-width: 768px) {
+  /* Let the page start from the top instead of being centered */
+  body {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .shell {
+    min-height: 100dvh; /* dynamic viewport height, respects keyboard */
+  }
+
+  .main {
+    align-items: flex-start;
+  }
+
+  /* Make sure we have some space at the bottom so input is not hidden */
+  .panel-body {
+    padding-bottom: 5rem;
+  }
+}
