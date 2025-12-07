@@ -18,14 +18,13 @@
   <meta property="og:description" content="Take blind typing speed tests, improve WPM, and track your accuracy and characters typed with Kitty Typing." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://kitty-typing.onrender.com/" />
-  <!-- Replace with your actual preview image if you add one -->
   <meta property="og:image" content="https://kitty-typing.onrender.com/assets/images/logo.jpg" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Kitty Typing – Blind Typing Speed Test & Practice" />
   <meta name="twitter:description" content="Practice blind typing, measure WPM, and track accuracy with Kitty Typing's online speed tests." />
-  <meta name="twitter:image" content="hhttps://kitty-typing.onrender.com/assets/images/logo.jpg" />
+  <meta name="twitter:image" content="https://kitty-typing.onrender.com/assets/images/logo.jpg" />
 
   <!-- Optional: identify app author -->
   <meta name="author" content="Yash Shinde" />
@@ -113,7 +112,8 @@
       max-height: 140px;
       overflow-y: auto;
     }
-    .blind-info {
+    .blind-info,
+    .normal-info {
       margin-top: 0.4rem;
       font-size: 0.8rem;
       color: #9ca3af;
@@ -153,6 +153,54 @@
     .typing-actions .chip {
       font-size: 0.78rem;
       padding-inline: 0.9rem;
+    }
+
+    /* MODE TABS + PANELS */
+    .mode-tabs {
+      display: inline-flex;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .mode-tab {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .mode-tab.active {
+      box-shadow:
+        0 0 0 1px rgba(129,140,248,0.9),
+        0 0 18px rgba(129,140,248,0.6);
+    }
+
+    .mode-panel {
+      display: none;
+    }
+    .mode-panel.active {
+      display: block;
+    }
+
+    .normal-input-box {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .normal-input-box textarea {
+      resize: none;
+      min-height: 80px;
+      border-radius: 0.9rem;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid rgba(148,163,184,0.75);
+      background: #020617;
+      color: #e5e7eb;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    .normal-input-box textarea:focus {
+      border-color: #6366f1;
+      box-shadow:
+        0 0 0 1px rgba(99,102,241,0.8),
+        0 0 24px rgba(99,102,241,0.5);
     }
 
     /* HERO METRICS CARD */
@@ -249,6 +297,43 @@
       border-radius: 4px;
       box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.7);
     }
+    /* ================= USER PROFILE BADGE ================= */
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .45rem .85rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(148,163,184,.45);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.user-profile:hover {
+  box-shadow: 0 0 14px rgba(129,140,248,.7);
+  transform: translateY(-2px);
+}
+
+/* User image */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(129,140,248,0.8);
+}
+
+/* Username text */
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e5e7eb;
+  letter-spacing: .02em;
+}
+
   </style>
 </head>
 <body>
@@ -275,6 +360,11 @@
         <button class="chip chip-soft" id="btn-120">Test 120s</button>
         <button class="chip chip-soft" id="custom-time">Custom</button>
       </div>
+      <div class="user-profile">
+    <img src="assets/images/user.png" alt="User" class="user-avatar">
+    <span class="user-name">Yash</span>   <!-- dynamic later -->
+</div>
+
     </header>
 
     <main class="main">
@@ -321,49 +411,100 @@
             <span class="panel-title">Typing Test</span>
           </div>
           <div class="panel-body">
-            <div class="pill-row">
-              <span class="pill pill-soft">Blind mode</span>
-              <span class="pill">Coming Soon</span>
+            <!-- MODE TABS -->
+            <div class="pill-row mode-tabs">
+              <button class="pill pill-soft mode-tab active" data-mode="normal">Normal mode</button>
+              <button class="pill mode-tab" data-mode="blind">Blind mode</button>
             </div>
 
             <div class="app-slot">
               <div class="typing-wrapper">
-                <div class="typing-header">
-                  <div class="typing-timer">
-                    Time left: <span id="time-left">60</span>s
+
+                <!-- NORMAL MODE PANEL -->
+                <div class="mode-panel mode-panel-normal active">
+                  <div class="typing-header">
+                    <div class="typing-timer">
+                      Time left: <span id="time-left-normal">60</span>s
+                    </div>
+                    <button class="chip chip-soft" id="change-text-normal">Change text</button>
                   </div>
-                  <button class="chip chip-soft" id="change-text">Change text</button>
+
+                  <div class="typing-text" id="typing-text-normal">
+                    Blue skies and white clouds make for a perfect summer afternoon. Type this text
+                    as fast and as accurately as you can. In normal mode, your input is visible while
+                    you type.
+                  </div>
+
+                  <div class="normal-input-box">
+                    <textarea id="normal-input" placeholder="Start typing here..."></textarea>
+                  </div>
+
+                  <div class="normal-info">
+                    Normal mode: You can see your typed text. Great for warm-up and accuracy-focused
+                    practice.
+                  </div>
+
+                  <div class="typing-stats">
+                    <div class="stat-box">
+                      <span class="stat-label">WPM</span>
+                      <span class="stat-value" id="wpm-normal">0</span>
+                    </div>
+                    <div class="stat-box">
+                      <span class="stat-label">Accuracy</span>
+                      <span class="stat-value" id="accuracy-normal">0%</span>
+                    </div>
+                    <div class="stat-box">
+                      <span class="stat-label">Characters</span>
+                      <span class="stat-value" id="characters-normal">0</span>
+                    </div>
+                  </div>
+
+                  <div class="typing-actions">
+                    <button class="btn-main" id="start-test-normal">Start test</button>
+                    <button class="chip chip-soft" id="reset-test-normal">Reset</button>
+                  </div>
                 </div>
 
-                <div class="typing-text" id="typing-text">
-                  The quick brown fox jumps over the lazy dog. Type this text as fast and as
-                  accurately as you can, but your input will stay hidden on the screen.
+                <!-- BLIND MODE PANEL (your existing test, unchanged IDs) -->
+                <div class="mode-panel mode-panel-blind">
+                  <div class="typing-header">
+                    <div class="typing-timer">
+                      Time left: <span id="time-left">60</span>s
+                    </div>
+                    <button class="chip chip-soft" id="change-text">Change text</button>
+                  </div>
+
+                  <div class="typing-text" id="typing-text">
+                    The quick brown fox jumps over the lazy dog. Type this text as fast and as
+                    accurately as you can, but your input will stay hidden on the screen.
+                  </div>
+
+                  <div class="blind-info">
+                    Blind mode: Typing field is hidden. When the test starts, type on your keyboard
+                    and focus on the text above.
+                  </div>
+
+                  <div class="typing-stats">
+                    <div class="stat-box">
+                      <span class="stat-label">WPM</span>
+                      <span class="stat-value" id="wpm">0</span>
+                    </div>
+                    <div class="stat-box">
+                      <span class="stat-label">Accuracy</span>
+                      <span class="stat-value" id="accuracy">0%</span>
+                    </div>
+                    <div class="stat-box">
+                      <span class="stat-label">Characters</span>
+                      <span class="stat-value" id="characters">0</span>
+                    </div>
+                  </div>
+
+                  <div class="typing-actions">
+                    <button class="btn-main" id="start-test">Start test</button>
+                    <button class="chip chip-soft" id="reset-test">Reset</button>
+                  </div>
                 </div>
 
-                <div class="blind-info">
-                  Typing field is hidden. When the test starts, type on your keyboard and focus on
-                  the text above.
-                </div>
-
-                <div class="typing-stats">
-                  <div class="stat-box">
-                    <span class="stat-label">WPM</span>
-                    <span class="stat-value" id="wpm">0</span>
-                  </div>
-                  <div class="stat-box">
-                    <span class="stat-label">Accuracy</span>
-                    <span class="stat-value" id="accuracy">0%</span>
-                  </div>
-                  <div class="stat-box">
-                    <span class="stat-label">Characters</span>
-                    <span class="stat-value" id="characters">0</span>
-                  </div>
-                </div>
-
-                <div class="typing-actions">
-                  <button class="btn-main" id="start-test">Start test</button>
-                  <button class="chip chip-soft" id="reset-test">Reset</button>
-                </div>
               </div>
             </div>
           </div>
@@ -384,7 +525,33 @@
 
   </div>
 
-  <!-- main typing logic + Firestore stats -->
+  <!-- MODE SWITCH JS (just handles tab switching) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.mode-tab');
+      const normalPanel = document.querySelector('.mode-panel-normal');
+      const blindPanel = document.querySelector('.mode-panel-blind');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const mode = tab.dataset.mode; // "normal" or "blind"
+
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          if (mode === 'normal') {
+            normalPanel.classList.add('active');
+            blindPanel.classList.remove('active');
+          } else {
+            blindPanel.classList.add('active');
+            normalPanel.classList.remove('active');
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- main typing logic + Firestore stats (currently wired to BLIND mode IDs) -->
   <script type="module" src="src/pages/main.js"></script>
 </body>
 </html>

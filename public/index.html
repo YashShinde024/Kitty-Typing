@@ -350,29 +350,68 @@
     color: #a5b4fc;
   }
 
-  /* ---------- FOOTER ---------- */
-  .footer {
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
+/* ===== COMMON FOOTER STYLES (glow, colors) ===== */
+.footer-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), #020617);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 26px rgba(79, 70, 229, 0.85),
+    0 0 52px rgba(30, 64, 175, 0.9);
+}
 
-  .footer strong {
-    color: #fff;
-  }
+.footer-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.85);
+}
 
-  @media (max-width: 480px) {
-    .card {
-      padding: 1.35rem 1.05rem;
-    }
-    .card h2 {
-      font-size: 1.32rem;
-    }
-  }
+.creator-link {
+  color: #e5e7eb;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.18s ease, text-shadow 0.18s ease;
+}
+
+.creator-link:hover {
+  color: #a5b4fc;
+  text-shadow: 0 0 12px rgba(129, 140, 248, 0.9);
+}
+
+.dot {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* ===== DEFAULT: fixed footer (typing page etc.) ===== */
+.footer {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.78rem;
+  z-index: 20;
+}
+
+/* ===== LOGIN PAGE: NO FIXED, NO OVERLAP ===== */
+.login-page .footer {
+  position: static;
+  transform: none;
+  margin: 3rem auto 2rem;   /* just like screenshot 1 */
+  display: flex;
+  justify-content: center;
+}
+
   </style>
 </head>
-<body>
+<body class="login-page">
 
   <div class="bg-orbit"></div>
   <div class="bg-orbit two"></div>
