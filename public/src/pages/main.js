@@ -539,6 +539,23 @@ window.addEventListener("DOMContentLoaded", () => {
       await loadUserStats();
     });
   }
+// -------------------------------------
+// AUTO SCROLL FIX FOR MOBILE KEYBOARD
+// -------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const focusable = document.querySelectorAll("input, textarea, .typing-input");
+
+  focusable.forEach(el => {
+    el.addEventListener("focus", () => {
+      setTimeout(() => {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }, 300); // delay so keyboard appears first
+    });
+  });
+});
 
   function init() {
     setTimeLimitFromButtons();
