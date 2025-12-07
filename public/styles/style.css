@@ -831,3 +831,55 @@ body {
     padding-bottom: 5rem;
   }
 }
+/* ================= MOBILE RESPONSIVE FIX ================= */
+
+@media (max-width: 768px) {
+    .topbar {
+        flex-wrap: wrap;
+        gap: .6rem;
+        padding: .8rem 1rem;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: .5rem;
+        overflow-x: auto;        /* allow smooth scrolling */
+        white-space: nowrap;
+        padding-bottom: .3rem;
+        scrollbar-width: none;  /* hide scrollbar (Firefox) */
+    }
+
+    .top-actions::-webkit-scrollbar {
+        display: none;           /* hide scrollbar (Chrome) */
+    }
+
+    .user-profile {
+        margin-left: auto;        /* stick to right side */
+    }
+}
+
+/* Smaller screens (phones) */
+@media (max-width: 480px) {
+    .user-profile {
+        padding: .35rem .8rem;
+        font-size: .8rem;
+    }
+
+    .user-avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    .user-name {
+        font-size: .8rem;
+    }
+
+    .pill, .chip {
+        font-size: .75rem;
+        padding: .3rem .65rem;
+    }
+
+    .hero-copy, .panel {
+        margin-top: .5rem;
+    }
+}
