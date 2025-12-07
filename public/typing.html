@@ -3,8 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kitty Typing Test</title>
+
+  <!-- Primary SEO Meta -->
+  <title>Kitty Typing – Blind Typing Speed Test & Practice</title>
+  <meta name="description" content="Kitty Typing is an online blind typing speed test where you can practice typing, track WPM, accuracy and characters, and challenge yourself with 60s or 120s tests." />
+  <meta name="keywords" content="typing test, blind typing test, typing practice, wpm test, speed typing, kitty typing, online typing test, accuracy typing test" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kitty-typing.onrender.com/" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Kitty Typing – Blind Typing Speed Test & Practice" />
+  <meta property="og:description" content="Take blind typing speed tests, improve WPM, and track your accuracy and characters typed with Kitty Typing." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kitty-typing.onrender.com/" />
+  <!-- Replace with your actual preview image if you add one -->
+  <meta property="og:image" content="https://kitty-typing.onrender.com/assets/images/kitty-typing-og.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kitty Typing – Blind Typing Speed Test & Practice" />
+  <meta name="twitter:description" content="Practice blind typing, measure WPM, and track accuracy with Kitty Typing's online speed tests." />
+  <meta name="twitter:image" content="https://kitty-typing.onrender.com/assets/images/kitty-typing-og.png" />
+
+  <!-- Optional: identify app author -->
+  <meta name="author" content="Yash Shinde" />
+
   <link rel="stylesheet" href="styles/style.css" />
+
+  <!-- Structured Data: WebApplication (no visual change) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kitty Typing",
+    "url": "https://kitty-typing.onrender.com/",
+    "applicationCategory": "EducationalApplication",
+    "description": "Kitty Typing is an online blind typing speed test and practice tool that tracks WPM, accuracy and characters typed.",
+    "operatingSystem": "All",
+    "creator": {
+      "@type": "Person",
+      "name": "Yash Shinde"
+    }
+  }
+  </script>
+
   <style>
     .brand-logo {
       width: 38px;
@@ -15,6 +59,18 @@
       box-shadow:
         0 0 18px rgba(129,140,248,0.9),
         0 0 32px rgba(168,85,247,0.9);
+    }
+
+    /* Visually hidden but accessible (for SEO + screen readers) */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
 
     .typing-layout {
@@ -196,6 +252,11 @@
   </style>
 </head>
 <body>
+  <!-- Hidden main heading for SEO, no UI change -->
+  <h1 class="visually-hidden">
+    Kitty Typing – Blind online typing speed test to practice and track WPM and accuracy.
+  </h1>
+
   <div class="bg-orbit"></div>
   <div class="bg-orbit orbit-two"></div>
 
@@ -220,7 +281,7 @@
       <section class="typing-layout">
         <div class="hero-copy">
           <div class="hero-metrics">
-            <h1 class="hero-title">Test your speed and accuracy.</h1>
+            <h2 class="hero-title">Test your speed and accuracy.</h2>
             <p class="hero-sub">
               Start the test and type without seeing your input. Track your words per minute,
               accuracy and characters typed in real time.
@@ -311,15 +372,15 @@
     </main>
 
     <footer class="footer">
-  <div class="footer-inner">
-    <span class="footer-label">Created by</span>
-    <a href="https://www.linkedin.com/in/yash-shinde-393159309" target="_blank" class="creator-link">Yash</a>
-    <span class="dot">•</span>
-    <a href="https://www.linkedin.com/in/om-dumbre-075345372" target="_blank" class="creator-link">Om</a>
-    <span class="dot">•</span>
-    <a href="https://www.linkedin.com/in/ayush-valanju-3a3632341" target="_blank" class="creator-link">Ayush</a>
-  </div>
-</footer>
+      <div class="footer-inner">
+        <span class="footer-label">Created by</span>
+        <a href="https://www.linkedin.com/in/yash-shinde-393159309" target="_blank" class="creator-link">Yash</a>
+        <span class="dot">•</span>
+        <a href="https://www.linkedin.com/in/om-dumbre-075345372" target="_blank" class="creator-link">Om</a>
+        <span class="dot">•</span>
+        <a href="https://www.linkedin.com/in/ayush-valanju-3a3632341" target="_blank" class="creator-link">Ayush</a>
+      </div>
+    </footer>
 
   </div>
 
