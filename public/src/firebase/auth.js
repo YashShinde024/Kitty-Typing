@@ -32,21 +32,46 @@ const provider = new GoogleAuthProvider();
 // DOM elements
 const loginForm = document.getElementById("login-form");
 const googleBtn = document.getElementById("google-login");
-const rememberCheckbox = document.getElementById("remember");
+const rememberCheckbox = document.getElementById("rememberMe"); // ✅ matches HTML id
 const forgotLink = document.getElementById("forgot-password");
 
 // where to go after login
 const redirectAfterLogin = () => (window.location.href = "typing.html");
 
+// ✅ Decide persistence based on Remember Me
 const getPersistence = () =>
   rememberCheckbox && rememberCheckbox.checked
-    ? browserLocalPersistence
-    : browserSessionPersistence;
+    ? browserLocalPersistence        // stays logged in even after closing browser
+    : browserSessionPersistence;     // logs out when browser closes
 
 const showError = (e) => {
   console.error("Auth error:", e.code, e.message, e);
   alert(e.message || "Something went wrong. Please try again.");
 };
+
+// ✅ Save or clear email in localStorage based on Remember Me
+function handleRememberEmail(email) {
+  if (!rememberCheckbox) return;
+  if (rememberCheckbox.checked && email) {
+    localStorage.setItem("savedEmail", email);
+  } else {
+    localStorage.removeItem("savedEmail");
+  }
+}
+
+// ✅ Restore email + checkbox on page load
+window.addEventListener("load", () => {
+  const savedEmail = localStorage.getItem("savedEmail");
+  if (!savedEmail) return;
+
+  const emailInput = document.getElementById("email");
+  if (emailInput) {
+    emailInput.value = savedEmail;
+  }
+  if (rememberCheckbox) {
+    rememberCheckbox.checked = true;
+  }
+});
 
 // ---------- EMAIL + PASSWORD LOGIN ----------
 if (loginForm) {
@@ -64,6 +89,8 @@ if (loginForm) {
       await setPersistence(auth, getPersistence());
       const cred = await signInWithEmailAndPassword(auth, email, password);
       console.log("Email login success:", cred.user.uid);
+
+      handleRememberEmail(email); // ✅ store/clear email based on checkbox
       redirectAfterLogin();
     } catch (e) {
       showError(e);
@@ -80,6 +107,8 @@ if (googleBtn) {
       await setPersistence(auth, getPersistence());
       const result = await signInWithPopup(auth, provider);
       console.log("Google login success:", result.user.uid);
+
+      handleRememberEmail(result.user?.email || ""); // ✅ works with Remember Me too
       redirectAfterLogin();
     } catch (e) {
       showError(e);
